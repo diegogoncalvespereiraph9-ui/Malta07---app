@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang='pt-BR'>
+<head>
+<meta charset='UTF-8'>
+<meta name='viewport' content='width=device-width,initial-scale=1'>
+<title>Malta 07 - App</title>
+<style>
+body{margin:0;background:#0e0e10;color:#eee;font-family:sans-serif;padding:10px}
+h1{background:#facc15;color:#000;text-align:center;padding:14px;border-radius:12px;margin:0 0 10px;font-size:22px}
+.card{background:#1e1e24;border-radius:12px;padding:10px;margin-bottom:10px;border:1px solid #333}
+input,select,button{background:#0e0e10;color:#fff;border:1px solid #444;border-radius:8px;padding:12px;width:100%;font-size:16px;box-sizing:border-box;margin-top:4px}
+button{background:#facc15;color:#000;font-weight:900;border:0;margin-top:8px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.lista{max-height:300px;overflow:auto}
+.item{display:flex;justify-content:space-between;background:#15151a;padding:8px;border-radius:8px;margin:4px 0;font-size:13px}
+.total{background:#facc15;color:#000;padding:14px;border-radius:12px;font-weight:900;text-align:center;font-size:20px;margin-top:10px}
+</style>
+</head>
+<body>
+<h1>⛽ MALTA 07 - APP PRONTO</h1>
+<div class='card'>
+<div class='grid2'>
+<div><small>Responsável</small><input id='resp' value='Diego'></div>
+<div><small>Frentista</small><input id='frent' value='Jhonata'></div>
+<div><small>Data</small><input id='data' type='date'></div>
+<div><small>Turno</small><select id='turno'><option>01 Manhã</option><option>02 Tarde</option><option selected>03 Noite</option></select></div>
+</div>
+</div>
+<div class='card'>
+<b>➕ Lançar Abastecimento</b>
+<div class='grid2'>
+<div><small>Bico</small><select id='bico'><option>01 GA</option><option>02 GC</option><option>03 EA</option><option>04 GA</option><option>05 GC</option><option>06 EA</option><option>07 GA</option><option>08 GC</option><option>09 EA</option><option>10 GA</option><option>11 GC</option><option>12 EA</option><option>13 GA</option><option>14 EC</option><option>15 EA</option><option>16 GA</option><option>17 EC</option><option>18 EA</option></select></div>
+<div><small>Litros</small><input id='litros' type='number' placeholder='20'></div>
+<div><small>Valor</small><input id='valor' type='number' placeholder='auto'></div>
+<div><small>Pagamento</small><select id='pag'><option>Débito</option><option>Crédito</option><option>Sem Parar</option><option>PIX</option><option>Dinheiro</option><option>Despesa</option></select></div>
+</div>
+<button onclick='addAbast()'>LANÇAR AGORA</button>
+</div>
+<div class='card'>
+<b>📋 Lançamentos (<span id='qtd'>0</span>)</b>
+<div id='lista' class='lista'>Nenhum ainda</div>
+<div class='total' id='total'>TOTAL R$ 0,00</div>
+</div>
+<div class='card'>
+<button onclick='gerarImagem()'>📸 GERAR IMAGEM PRA GRUPO</button>
+<button onclick='if(confirm("Apagar tudo?")){lista=[];render();localStorage.clear()}' style='background:#27272a;color:#aaa'>🗑️ Limpar</button>
+</div>
+<canvas id='c' width='1080' height='1920' style='display:none'></canvas>
+<script>
+let lista=[]; const precos={GA:6.79,GC:5.84,EA:3.99,EC:3.34};
+document.getElementById('data').valueAsDate=new Date();
+function addAbast(){
+ let b=document.getElementById('bico').value; let prod=b.split(' ')[1];
+ let l=parseFloat(document.getElementById('litros').value)||0;
+ let v=parseFloat(document.getElementById('valor').value)||(l*precos[prod]);
+ if(l<=0 && v<=0){alert('Coloca litros');return}
+ let pag=document.getElementById('pag').value;
+ lista.push({b,prod,l,v,pag,h:new Date().toLocaleTimeString()}); render();
+ document.get
